@@ -90,7 +90,7 @@ private fun listenToSub(subscriptionId: String) {
         subscriber = Subscriber.newBuilder(subscriptionName, MessageReceiverExample()).build()
         subscriber.startAsync().awaitRunning()
         // Continue to listen to messages
-        println("Listening to in-memory queue with messages received on $subscriptionId")
+        println("Listening to in-memory queue for sub  $subscriptionId")
         while (true) {
             try {
                 val message = messages.take()
