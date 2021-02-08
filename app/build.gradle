@@ -19,9 +19,9 @@ dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
-    compile group: 'com.google.cloud', name: 'google-cloud-pubsub', version:'1.42.0'
-    compile "com.google.cloud:google-cloud-storage:1.36.0"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation group: 'com.google.cloud', name: 'google-cloud-pubsub', version:'1.42.0'
+    implementation "com.google.cloud:google-cloud-storage:1.36.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     // Use the Kotlin test library.
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
@@ -39,13 +39,17 @@ tasks {
 }
 application {
     // Define the main class for the application.
-    mainClassName = 'com.doitintl.multicloud.ProcessorKt'
+    mainClass = 'com.doitintl.multicloud.ProcessorKt'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': mainClassName
+        attributes 'Main-Class': application.mainClass
     }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }
 
