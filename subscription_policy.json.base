@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "role": "roles/pubsub.subscriber",
+      "members": [
+      "serviceAccount:${SA_FULLID}"
+      ]
+    }
+  ],
+  "etag":  "${ETAG}"
+}
