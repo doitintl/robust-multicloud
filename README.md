@@ -20,3 +20,11 @@ content being a `gs://` url to a file.
 
 The app will receive the message, read the referenced file, and create a new file with the same name and suffix `.out`
 with the same text, upside down.
+
+#TODO ound/hello
+Upload gs://multicloud_pubsub-joshua-playground/hello.out
+Get gs://multicloud_pubsub-joshua-playground/hello
+Upload gs://multicloud_pubsub-joshua-playground/hello.out
+Error in msg loop: com.google.cloud.storage.StorageException: multicloud-pubsub@joshua-playground.iam.gserviceaccount.com does not have storage.objects.delete access to multicloud_pubsub-joshua-playground/hello.out.
+
+

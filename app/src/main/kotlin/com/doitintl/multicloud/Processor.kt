@@ -69,7 +69,6 @@ private fun processMessage(message: PubsubMessage) {
 
 
 private fun upload(bucketName: String, bytes: ByteArray, blobName: String) {
-    println("Upload gs://$bucketName/$blobName")
 
     val storage: Storage = StorageOptions.getDefaultInstance().service
 
@@ -77,12 +76,12 @@ private fun upload(bucketName: String, bytes: ByteArray, blobName: String) {
     val blobInfo = BlobInfo.newBuilder(blobId).build()
     storage.create(blobInfo, bytes)
 
+    println("Upload gs://$bucketName/$blobName")
 }
 
 private fun download(bucketName: String, blobName: String): ByteArray {
     val storage: Storage = StorageOptions.getDefaultInstance().service
 
-    println("Get gs://$bucketName/$blobName")
 
     val blob: Blob = storage.get(BlobId.of(bucketName, blobName))
     val path = Paths.get(blobName)
@@ -90,6 +89,7 @@ private fun download(bucketName: String, blobName: String): ByteArray {
 
     val bytes = Files.readAllBytes(path)
     Files.delete(path)
+    println("Get gs://$bucketName/$blobName")
     return bytes
 }
 

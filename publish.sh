@@ -13,3 +13,10 @@ gsutil cp hello gs://$BUCKET
 rm hello
 ./pubsub_setup.sh
 gcloud pubsub topics publish $TOPIC --message "gs://$BUCKET/hello"
+
+sleep 20
+
+gsutil cp gs://$BUCKET/hello.out  .
+cat hello.out
+printf "\n"
+rm hello.out
