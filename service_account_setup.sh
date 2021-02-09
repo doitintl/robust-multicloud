@@ -1,9 +1,9 @@
 #!/bin/bash
 set -u
-set -x
+
 set -e
 PROJECT_ID=$(gcloud config get-value project)
-SERVICE_ACCOUNT_NAME=multicloud-pubsub
+SERVICE_ACCOUNT_NAME=multicloud-pubsub-svc-acct
 SA_FULLID=${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com
 
 # shellcheck disable=SC2155
@@ -18,7 +18,6 @@ gcloud iam service-accounts create $SERVICE_ACCOUNT_NAME \
 gcloud projects add-iam-policy-binding $PROJECT_ID --member=serviceAccount:$SA_FULLID \
     --role="roles/pubsub.subscriber"
 
-gsutil iam ch serviceAccount:$SA_FULLID:roles/storage.objectCreator gs://$BUCKET
-gsutil iam ch serviceAccount:$SA_FULLID:roles/storage.objectViewer gs://$BUCKET
+gsutil iam ch serviceAccount:$SA_FULLID:roles/storage.objectAdmin gs://$BUCKET
 
 gcloud iam service-accounts keys create ./service-account.json  --iam-account  $SA_FULLID
