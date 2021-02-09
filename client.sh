@@ -8,22 +8,21 @@ export BUCKET=multicloud_pubsub-$(gcloud config get-value project)
 ./bucket_setup.sh
 
 RAND=$RANDOM
-STR="x${RAND}"
-echo $STR > $STR
-echo "Hello, World!" > $STR
-gsutil cp $STR gs://$BUCKET
-rm $STR
+FILENAME="x${RAND}"
+echo "Hello, World!" > $FILENAME
+gsutil cp $FILENAME gs://$BUCKET
+rm $FILENAME
 ./pubsub_setup.sh
-gcloud pubsub topics publish $TOPIC --message "gs://$BUCKET/$STR"
+gcloud pubsub topics publish $TOPIC --message "gs://$BUCKET/$FILENAME"
 echo "Sleeping 10 s"
 sleep 10
 
-gsutil cp gs://$BUCKET/$STR.out  .
+gsutil cp gs://$BUCKET/$FILENAME.out  .
 
-cat $STR.out
-OUTPUT=$(cat $STR.out| tr -d '\n')
+cat $FILENAME.out
+OUTPUT=$(cat $FILENAME.out| tr -d '\n')
 printf "\n"
-rm $STR.out
+rm $FILENAME.out
 if [[ "${OUTPUT}" != "¡pןɹoM 'oןןǝH" ]]; then
   echo "Did not receive desired output. Was: \"$OUTPUT\""
   exit 1
