@@ -11,13 +11,11 @@ RUN 1>&2 ls -R
 
 RUN gradle clean build --no-daemon
 
-RUN 1>&2 ls -R
-
 # Now switch to the runtime image; base it on the latest Java, in a "slim" variant.
 FROM adoptopenjdk/openjdk13:debianslim-jre
 # Put the one necessary file, with  all dependencies, into the into the runtime.
+COPY service-account.json .
 COPY --from=builder ./home/gradle/app/build/libs/app.jar .
-ENV GOOGLE_CLOUD_PROJECT joshua-playground
-ENV GOOGLE_APPLICATION_CREDENTIALS pubsub_storage_sa.json
+ENV GOOGLE_APPLICATION_CREDENTIALS service-account.json
 # Run it
 CMD [ "java", "-jar",  "./app.jar" ]
